@@ -37,7 +37,12 @@ def Login():
     def BackButtonDep():
 
         Win1.deiconify()
-        Win3.withdraw()                                                               
+        Win3.withdraw()
+
+    def BackButtonHis():
+        
+        Win1.deiconify()
+        Win6.withdraw()
 
     def BackButtonTransfer():
 
@@ -129,6 +134,7 @@ def Login():
         import tkinter  as tk
         import matplotlib.pyplot as pl
         Win6 = tk.Tk()
+        Win1.withdraw()
         Win6['bg'] = 'blue'                                                                                                                 
         mycon = sql.connect(host="localhost",user="User", passwd="Rootpassword123",database="test")
         cursor = mycon.cursor()
@@ -146,7 +152,7 @@ def Login():
                 e.grid(row=i, column=j) 
                 e.insert(tk.END, record[j])
             i=i+1                                                                            
-
+        tk.Button(Win6,text="Back to Login",command=BackButtonHis).grid(row=12,column=0)
         tk.Button(Win6,text="Display Graph",command=Graphscreen).grid(row=12,column=2)
 
     def Graphscreen():
@@ -370,11 +376,34 @@ def signup():
     tk.Button(Win2,text="Register",command=register, bg = 'green').grid(row=3,column=1)
     tk.Button(Win2,text="Back",command=Back, bg = 'red').grid(row=3,column=0)
     
-                	
+def DevelopmentOptions():
 
+    def BackButtonDev():
+
+        master.deiconify()
+        DevWin.withdraw()
+
+    def CreateTable():
+        
+        import mysql.connector as sql
+        mycon = sql.connect(host="localhost",user="User",passwd="Rootpassword123",database="test")
+        cursor=mycon.cursor()
+
+        q1 = "create table if not exists amount(name char(30),password char(30),balance int)"
+        q2 = "create table if not exists history(name char(30),DateofTransaction date,Credit int,Debit int,TotalBalance int)"
+        cursor.execute(q1)
+        cursor.execute(q2)
+        
+    master.withdraw()
+    DevWin = tk.Tk()
+
+    tk.Label(DevWin, text="Development options are provided here.").grid(row=0,column=1)
+
+    tk.Button(DevWin, text="Back to Login",command=BackButtonDev).grid(row=1,column=0)
+    tk.Button(DevWin, text="Create necessary tables",command=CreateTable).grid(row=1,column=1)
+    
 master=tk.Tk()
 master['bg']='blue'
-
 
 tk.Label(master, text="Login screen", fg = 'cyan', bg = 'blue').grid(row=0, column=1)
 tk.Label(master, text="User", fg = 'cyan', bg = 'blue').grid(row=1)
@@ -389,7 +418,7 @@ e2.grid(row=2, column=1)
 tk.Button(master,text="Quit",command=master.destroy, bg = 'red').grid(row=3,column=0)                                                
 tk.Button(master,text="Login",command=Login, bg = 'green').grid(row=3,column=1)
 tk.Button(master,text="Signup",command=signup, bg = 'yellow').grid(row=3,column=2)
-
+tk.Button(master,text="Dev Options",command=DevelopmentOptions).grid(row=0,column=2)
 
 mycon.close()
 master.mainloop()
