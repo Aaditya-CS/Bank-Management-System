@@ -15,5 +15,5 @@ Modules used :
 
 The project is done with the usage of databases, hence the creation of associated databases and tables is required to run the program.
 An extensive amount of user-defined-functions have been used in the program.
-Constructive critisim and any help is greatly appreciated.
+Constructive criticism and any help is greatly appreciated.
 
