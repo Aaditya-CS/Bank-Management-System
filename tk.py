@@ -129,7 +129,6 @@ def Login():
         import tkinter  as tk
         import matplotlib.pyplot as pl
         Win6 = tk.Tk()
-        Win6.geometry("640x480")
         Win6['bg'] = 'blue'                                                                                                                 
         mycon = sql.connect(host="localhost",user="User", passwd="Rootpassword123",database="test")
         cursor = mycon.cursor()
@@ -143,19 +142,27 @@ def Login():
         i=1
         for record in cursor: 
             for j in range(len(record)):
-                e = tk.Entry(Win6, width=10, fg='blue') 
+                e = tk.Entry(Win6, width=15, fg='blue') 
                 e.grid(row=i, column=j) 
                 e.insert(tk.END, record[j])
             i=i+1                                                                            
 
-        a=(1,2)
+        tk.Button(Win6,text="Display Graph",command=Graphscreen).grid(row=12,column=2)
 
+    def Graphscreen():
+
+        import mysql.connector as sql
+        mycon = sql.connect(host="localhost",user="User", passwd="Rootpassword123",database="test")
+        cursor = mycon.cursor()
+        
         q1 = "select TotalBalance from history where name='%s' limit 0,10"%(EntryUser)
         cursor.execute(q1)
         data = cursor.fetchall()
+        
         import matplotlib.pyplot as plt
         from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 
+        Win7=tk.Tk()
 
         x = list(data)
 
@@ -166,12 +173,11 @@ def Login():
 
         plt.xticks(x)
 
-        canvas = FigureCanvasTkAgg(fig, master=Win6)
+        canvas = FigureCanvasTkAgg(fig, master=Win7)
         canvas.draw()
         canvas.get_tk_widget().grid(row=15, column=0)
 
-
-        toolbarFrame = tk.Frame(master=Win6)
+        toolbarFrame = tk.Frame(master=Win7)
         toolbarFrame.grid(row=17,column=0)
         toolbar = NavigationToolbar2Tk(canvas, toolbarFrame)
         
@@ -322,7 +328,7 @@ def signup():
        c="insert into amount(name,password,balance) values('{0}','{1}',{2})".format(a,b,0)
        cursor.execute(c)
        mycon.commit()
-       tk.Label(Win2, text="Successfully created account!").grid(row=4,column=1)
+       tk.Label(Win2, text="Successfully created account!", bg = 'cyan').grid(row=4,column=1)
 
        
        UserName.delete(0,tk.END)
