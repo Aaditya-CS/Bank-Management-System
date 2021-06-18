@@ -1,5 +1,6 @@
 # Bank Management System
 A project made to simulate the working of a bank management system, made with Python and MySQL. This code was written in Python 3.7.0 using the IDLE editor, and MySQL 8.0 using the command client.
+
 Features of the present code :
 
 1. Allows the user to create new accounts which are stored in a database, and login with them.
