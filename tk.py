@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import IntVar
 import mysql.connector as sql
 from datetime import date
 
@@ -99,8 +100,8 @@ def Login():
         tk.Label(Win3, text="Enter amount to be deposited", bg = 'cyan').grid(row=1)
         DepEntry = tk.Entry(Win3)
         DepEntry.grid(row=1,column=1)
-        tk.Button(Win3, text="Display Entered account", command=Deposit, bg = 'green').grid(row=2,column=1)
         tk.Button(Win3, text="Back to Mainscreen", command=BackButtonDep, bg = 'red').grid(row=2)
+        tk.Button(Win3, text="Display Entered account", command=Deposit, bg = 'green').grid(row=2,column=1)
     
                                                                                                   
     def search():                                                           
@@ -242,9 +243,8 @@ def Login():
         tk.Label(Win5,text="Amount sent : ", bg = 'cyan').grid(row=6)
         tk.Label(Win5,text=GetAmt, bg = 'cyan').grid(row=6,column=1)
         tk.Label(Win5,text="Balance left : ", bg = 'cyan').grid(row=7)
-        tk.Label(Win5,text=FirstUpBal, bg = 'cyan').grid(row=7,column=1) 
-            
-
+        tk.Label(Win5,text=FirstUpBal, bg = 'cyan').grid(row=7,column=1)
+        
 
     def Transferscreen():
 
@@ -264,9 +264,7 @@ def Login():
         TransferAmt.grid(row=2,column=1)
 
         tk.Button(Win5, text="Transfer Amount",command=Transfer, bg = 'green').grid(row=3,column=1)
-        tk.Button(Win5, text="Back to Mainscreen",command=BackButtonTransfer, bg = 'red').grid(row=3)
-        
-        
+        tk.Button(Win5, text="Back to Mainscreen",command=BackButtonTransfer, bg = 'red').grid(row=3)        
         
 
     def Withdrawal():
@@ -315,8 +313,8 @@ def Login():
         tk.Label(Win4, text="Enter amount to be Withdrawn", bg = 'cyan').grid(row=1)
         WithEntry = tk.Entry(Win4)
         WithEntry.grid(row=1,column=1)
-        tk.Button(Win4, text="Withdraw", command=Withdrawal, bg = 'green').grid(row=2)
-        tk.Button(Win4, text="Back to Mainscreen", command=BackButtonWith, bg = 'red').grid(row=2,column=1)
+        tk.Button(Win4, text="Back to Mainscreen", command=BackButtonWith, bg = 'red').grid(row=2)
+        tk.Button(Win4, text="Withdraw amount", command=Withdrawal, bg = 'green').grid(row=2,column=1)
         
                   
     search()
@@ -401,6 +399,13 @@ def DevelopmentOptions():
 
     tk.Button(DevWin, text="Back to Login",command=BackButtonDev).grid(row=1,column=0)
     tk.Button(DevWin, text="Create necessary tables",command=CreateTable).grid(row=1,column=1)
+
+def Showpassword():
+
+    if BoxState.get()==0:
+        e2['show']="*"
+    else:
+        e2['show']=""
     
 master=tk.Tk()
 master['bg']='blue'
@@ -415,9 +420,13 @@ e2 = tk.Entry(master,show='*')
 e1.grid(row=1, column=1)
 e2.grid(row=2, column=1)
 
-tk.Button(master,text="Quit",command=master.destroy, bg = 'red').grid(row=3,column=0)                                                
-tk.Button(master,text="Login",command=Login, bg = 'green').grid(row=3,column=1)
-tk.Button(master,text="Signup",command=signup, bg = 'yellow').grid(row=3,column=2)
+BoxState = IntVar()
+Showpass = tk.Checkbutton(master,text="Show password",variable=BoxState,command=Showpassword, bg='blue', fg='cyan')
+Showpass.grid(row=3)
+
+tk.Button(master,text="Quit",command=master.destroy, bg = 'red').grid(row=4,column=0)                                                
+tk.Button(master,text="Login",command=Login, bg = 'green').grid(row=4,column=1)
+tk.Button(master,text="Signup",command=signup, bg = 'yellow').grid(row=4,column=2)
 tk.Button(master,text="Dev Options",command=DevelopmentOptions).grid(row=0,column=2)
 
 mycon.close()
