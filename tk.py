@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import IntVar
+from tkinter import ttk
 import mysql.connector as sql
 from datetime import date
 
@@ -327,14 +328,25 @@ def signup():
        global a,b
        a = UserName.get()
        b = PassWord.get()
-
-
-       c="insert into amount(name,password,balance) values('{0}','{1}',{2})".format(a,b,0)
-       cursor.execute(c)
-       mycon.commit()
-       tk.Label(Win2, text="Successfully created account!", bg = 'cyan').grid(row=4,column=1)
-
+       Endresult = tk.Label(Win2, text="", bg = 'cyan')
+       Endresult.grid(row=4,column=1)
        
+       c="insert into amount(name,password,balance) values('{0}','{1}',{2})".format(a,b,0)
+       
+       consearch = "select name,password from amount where name = '{0}'".format(a)
+       cursor.execute(consearch)
+       data = cursor.fetchall()
+       if data:
+           Endresult['text'] = ''
+           Endresult['text'] = 'Acc with same username exists'
+
+       else:
+           cursor.execute(c)
+           mycon.commit()
+           Endresult['text'] = ''
+           Endresult['text'] = 'Successfully created account!!'
+           
+
        UserName.delete(0,tk.END)
        PassWord.delete(0,tk.END)
        
@@ -391,7 +403,47 @@ def DevelopmentOptions():
         q2 = "create table if not exists history(name char(30),DateofTransaction date,Credit int,Debit int,TotalBalance int)"
         cursor.execute(q1)
         cursor.execute(q2)
+
+    def DeleteTableScreen():
+
+        global DelWin,TableNames,Values
+
+        DelWin = tk.Tk()
+        DevWin.withdraw()
+
+        import mysql.connector as sql
+        mycon = sql.connect(host="localhost",user="User",passwd="Rootpassword123",database="test")
+        cursor=mycon.cursor()
         
+        SelectAcc = "select name from amount"
+        cursor.execute(SelectAcc)
+        AccNames = cursor.fetchall()
+        Values = []
+        for i in AccNames:
+            Values.append(i)
+        
+        tk.Label(DelWin,text = "Select and delete Account").grid(row=0)
+        TableNames = ttk.Combobox(DelWin, values = Values)
+        TableNames.grid(row=1)
+
+        tk.Button(DelWin,text = "Delete Account",command = DeleteTable).grid(row=2)
+
+
+    def DeleteTable():
+
+        import mysql.connector as sql
+        mycon = sql.connect(host="localhost",user="User",passwd="Rootpassword123",database="test")
+        cursor=mycon.cursor()
+
+        global DelWin,TableNames,Values
+
+        GetName = TableNames.get()
+        Delquery = "delete from amount where name = '{0}'".format(GetName)
+        cursor.execute(Delquery)
+        mycon.commit()
+        tk.Label(DelWin,text = "Successfully deleted").grid(row=3)
+
+                
     master.withdraw()
     DevWin = tk.Tk()
 
@@ -399,6 +451,7 @@ def DevelopmentOptions():
 
     tk.Button(DevWin, text="Back to Login",command=BackButtonDev).grid(row=1,column=0)
     tk.Button(DevWin, text="Create necessary tables",command=CreateTable).grid(row=1,column=1)
+    tk.Button(DevWin, text="Delete Tables",command=DeleteTableScreen).grid(row=2,column=1)
 
 def Showpassword():
 
