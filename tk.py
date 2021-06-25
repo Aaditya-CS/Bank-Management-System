@@ -132,6 +132,8 @@ def Login():
 
     def History():
 
+        global Win6
+
         import mysql.connector as sql
         import tkinter  as tk
         import matplotlib.pyplot as pl
@@ -343,7 +345,7 @@ def DevelopmentOptions():
         global DelWin,TableNames,Values
 
         DevWin.withdraw()
-        DelWin.tk.Tk()
+        DelWin=tk.Tk()
 
         import mysql.connector as sql
         mycon = sql.connect(host="localhost",user="User",passwd="Rootpassword123",database="test")
@@ -408,6 +410,11 @@ def DevelopmentOptions():
 
         ModValues = []
 
+        def BackButtonMod():
+
+            ModWin.withdraw()
+            DevWin.deiconify()
+
         def GetValue():
 
             global ModValues
@@ -427,7 +434,6 @@ def DevelopmentOptions():
 
         def Modify():
 
-
             import mysql.connector as sql
             mycon = sql.connect(host="localhost",user="User",passwd="Rootpassword123",database="test")
             cursor=mycon.cursor()
@@ -439,20 +445,24 @@ def DevelopmentOptions():
             cursor.execute(AmountQ)
             mycon.commit()
 
-            tk.Label(ModWin,text = "Modified Value").grid(row=3)
-            
-        TableList = ttk.Combobox(ModWin, values = ModValues, postcommand = GetValue)
-        TableList.grid(row=1)
+            tk.Label(ModWin,text = "The account value has been successfully modified").grid(row=4)
+            tk.Label(ModWin,text = "The account's username is : ").grid(row=5)
+            tk.Label(ModWin,text = TableUser).grid(row=5,column=1)
+            tk.Label(ModWin,text = "The account's modified value is : ").grid(row=6)
+            tk.Label(ModWin,text = ModAmt).grid(row=6,column=1)
 
         tk.Label(ModWin,text = "Modify any particular account's value here.").grid(row=0)
+        tk.Label(ModWin,text = "Select which account to change : ").grid(row=1)    
+        TableList = ttk.Combobox(ModWin, values = ModValues, postcommand = GetValue)
+        TableList.grid(row=1,column=1)
+
+        tk.Label(ModWin,text = "Enter the new value : ").grid(row=2)
         ModVal = tk.Entry(ModWin)
-        ModVal.grid(row=1,column = 1)
+        ModVal.grid(row=2,column = 1)
 
-
-        tk.Button(ModWin,text = "Modify Value",command = Modify).grid(row=2)
-    
+        tk.Button(ModWin,text = "Back to Dev Options",command = BackButtonMod).grid(row=3)
+        tk.Button(ModWin,text = "Modify Value",command = Modify).grid(row=3,column=1)
         
-                
     master.withdraw()
     DevWin = tk.Tk()
 
