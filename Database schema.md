@@ -1,4 +1,7 @@
 # Database schema
+
+Note : A button which allows for the creation of mentioned tables has been added to the project, in the development options.
+
 A database schema, containing the structure of the tables used in MySQL is provided here. The database associated with the project was made with MySQL 8.0 and requires an already existing database.
 
 1) Amount Table
