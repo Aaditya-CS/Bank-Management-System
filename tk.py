@@ -30,6 +30,7 @@ def Login():
         tk.Button(Win1, text="Withdrawal",command=Withdrawalscreen, bg = 'cyan').grid(row=2,column=1)
         tk.Button(Win1, text="Transfer",command=Transferscreen, bg = 'yellow').grid(row=3)
         tk.Button(Win1, text="View Account History",command=History, bg = 'yellow').grid(row=3,column=1)
+        tk.Button(Win1, text="Settings",command=Settings).grid(row=4)
 
     def BackButtonLogin():
         
@@ -318,6 +319,54 @@ def Login():
         WithEntry.grid(row=1,column=1)
         tk.Button(Win4, text="Back to Mainscreen", command=BackButtonWith, bg = 'red').grid(row=2)
         tk.Button(Win4, text="Withdraw amount", command=Withdrawal, bg = 'green').grid(row=2,column=1)
+
+        
+    def Settings():
+
+        Win1.withdraw()
+        SetWin=tk.Tk()
+
+        global EntryUser,EntryPass    
+        EntryUser = e1.get()
+        EntryPass = e2.get()
+
+        def BackButtonSet():
+
+            SetWin.withdraw()
+            Win1.deiconify()
+
+        def ChangeInfo():
+
+            import tkinter as tk
+            import mysql.connector as sql
+
+            mycon = sql.connect(host="localhost",user="User",passwd="Rootpassword123",database="test")
+            cursor=mycon.cursor()
+
+            UserAccGet = UserAccName.get()
+            PassAccGet = PassAccName.get()
+
+            ChangeInfoQ = "update amount set name='{0}',password='{1}' where name='{2}' and password='{3}'".format(UserAccGet,PassAccGet,EntryUser,EntryPass)
+            cursor.execute(ChangeInfoQ)
+            mycon.commit()
+
+            tk.Label(SetWin,text = "Account has been updated.").grid(row=4)
+            
+        tk.Label(SetWin,text = "Account settings").grid(row=0)
+        tk.Label(SetWin,text = "Overwrite new pass over old pass.").grid(row=0,column=1)
+        
+        tk.Label(SetWin,text = "Your username is : ").grid(row=1)
+        UserAccName = tk.Entry(SetWin)
+        UserAccName.grid(row=1,column=1)
+        UserAccName.insert(tk.END,EntryUser)
+        
+        tk.Label(SetWin,text = "Your password is : ").grid(row=2)
+        PassAccName = tk.Entry(SetWin)
+        PassAccName.grid(row=2,column=1)
+        PassAccName.insert(tk.END,EntryPass)
+        
+        tk.Button(SetWin,text = "Back to Mainscreen",command = BackButtonSet).grid(row=3)
+        tk.Button(SetWin,text = "Change Info",command = ChangeInfo).grid(row=3,column=1)
         
                   
     search()
@@ -372,8 +421,8 @@ def DevelopmentOptions():
             mycon.commit()
         
             TableNames.set('')
-            tk.Label(DelWin,text = GetName).grid(row=3)
-            tk.Label(DelWin,text = "Successfully deleted").grid(row=3,column=1)
+            tk.Label(DelWin,text = "The account deleted is : ").grid(row=3)
+            tk.Label(DelWin,text = GetName).grid(row=3,column=1)
         
         def UpdateValue():
 
@@ -392,9 +441,10 @@ def DevelopmentOptions():
 
             TableNames['values'] = Values
         
-        tk.Label(DelWin,text = "Select and delete Account").grid(row=0)
+        tk.Label(DelWin,text = "Delete accounts here.").grid(row=0)
+        tk.Label(DelWin,text = "Select account to be deleted.").grid(row=1)
         TableNames = ttk.Combobox(DelWin, values = Values, postcommand = UpdateValue)
-        TableNames.grid(row=1)
+        TableNames.grid(row=1,column=1)
 
         tk.Button(DelWin,text = "Back to Dev options",command = BackButtonDel).grid(row=2)
         tk.Button(DelWin,text = "Delete Account",command = DeleteTable).grid(row=2,column=1)
