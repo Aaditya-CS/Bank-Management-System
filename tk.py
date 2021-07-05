@@ -113,14 +113,18 @@ def Login():
         EntryPass = e2.get()
 
         import tkinter as tk
+
+        if len(EntryUser)==0 or len(EntryPass)==0:
+            tk.Label(master, text="Ensure that both fields are filled").grid(row=5,column=1)
+            return None
+
         import mysql.connector as sql
 
         mycon = sql.connect(host="localhost",user="User",passwd="Rootpassword123",database="test")
         cursor=mycon.cursor()
 
         q="select * from amount where name='%s' and password='%s'"%(EntryUser,EntryPass)
-        cursor.execute(q)
-                                                                                          
+        cursor.execute(q)                                                               
                                                                                                                                                 
         data = cursor.fetchall()
         
@@ -528,10 +532,16 @@ def signup():
     def register():
         
        global a,b
+       
        a = UserName.get()
        b = PassWord.get()
+       
        Endresult = tk.Label(Win2, text="", bg = 'cyan')
        Endresult.grid(row=4,column=1)
+
+       if len(a)==0 or len(b)==0:
+           Endresult['text'] = 'Ensure fields are filled'
+           return None
        
        c="insert into amount(name,password,balance) values('{0}','{1}',{2})".format(a,b,0)
        
