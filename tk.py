@@ -20,7 +20,7 @@ def Login():
     
         global Win1,EntryUser            
         master.withdraw()
-        Win1 = tk.Tk()
+        Win1.deiconify()
         Win1['bg'] = 'blue'
         tk.Label(Win1, text="Main screen", bg = 'blue', fg = 'cyan').grid(row=0,column=0)
         tk.Label(Win1, text="Welcome "+EntryUser, bg = 'blue', fg = 'cyan').grid(row=0,column=1)
@@ -95,7 +95,7 @@ def Login():
     def Depositscreen():
         
         global Win3,DepEntry
-        Win3=tk.Tk()
+        Win3.deiconify()
         Win1.withdraw()
         Win3['bg'] = 'cyan'
         tk.Label(Win3, text="Deposit Screen", bg = 'cyan').grid(row=0)
@@ -142,7 +142,7 @@ def Login():
         import mysql.connector as sql
         import tkinter  as tk
         import matplotlib.pyplot as pl
-        Win6 = tk.Tk()
+        Win6.deiconify()
         Win1.withdraw()
         Win6['bg'] = 'blue'                                                                                                                 
         mycon = sql.connect(host="localhost",user="User", passwd="Rootpassword123",database="test")
@@ -177,7 +177,7 @@ def Login():
         import matplotlib.pyplot as plt
         from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 
-        Win7=tk.Tk()
+        Win7.deiconify()
 
         x = list(data)
 
@@ -259,7 +259,7 @@ def Login():
         global Win5,TransferName,TransferAmt
         
         Win1.withdraw()
-        Win5=tk.Tk()
+        Win5.deiconify()
         Win5['bg'] = 'cyan'
         
         tk.Label(Win5, text="Transfer screen", bg = 'cyan').grid(row=0)
@@ -314,7 +314,7 @@ def Login():
     def Withdrawalscreen():
         
         global Win4,WithEntry
-        Win4=tk.Tk()
+        Win4.deiconify()
         Win1.withdraw()
         Win4['bg'] = 'cyan'
         tk.Label(Win4, text="Withdrawal Screen", bg = 'cyan').grid(row=0)
@@ -599,6 +599,22 @@ def Showpassword():
     
 master=tk.Tk()
 master['bg']='blue'
+
+Win1 = tk.Toplevel()
+Win2 = tk.Toplevel()
+Win3 = tk.Toplevel()
+Win4 = tk.Toplevel()
+Win5 = tk.Toplevel()
+Win6 = tk.Toplevel()
+Win7 = tk.Toplevel()
+
+Win1.withdraw()
+Win2.withdraw()
+Win3.withdraw()
+Win4.withdraw()
+Win5.withdraw()
+Win6.withdraw()
+Win7.withdraw()
 
 tk.Label(master, text="Login screen", fg = 'cyan', bg = 'blue').grid(row=0, column=1)
 tk.Label(master, text="User", fg = 'cyan', bg = 'blue').grid(row=1)
